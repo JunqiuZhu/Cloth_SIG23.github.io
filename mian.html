@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A Realistic Surface-based Cloth Rendering Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes, minimal-ui">
+
+
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-row justify="center" no-gutters>
+                <v-col class="py-4 text-center" :xl="7" :lg="7" :md="8" :sm="12" :xs="12">
+                    <!--  Title and teaser -->
+                    <v-row justify="center" class="mt-4"  no-gutters>
+                        <v-sheet tile>
+                            <div class="text-h3">{{title}}</div>
+                            <div class="text-h4 mt-4">SIGGRAPH2023</div>
+                        </v-sheet>
+                        <v-col :cols="12" class="mt-2" >
+                            <span v-for="author in authors" class="mr-4">
+                                <span v-if="author.link != null" >
+                                    <a :href=author.link>{{author.name}}</a>
+                                    <sup>{{author.sup}}</sup>
+                                </span>
+                                <span v-else>
+                                    {{author.name}}
+                                    <sup>{{author.sup}}</sup>
+                                </span>
+                            </span>
+                        </v-col>
+
+                        <v-col :cols="12" class="mt-2">
+                            <span v-for="(institution, index) in institutions" class="mr-4">
+                                {{institution}}<sup>{{index+1}}</sup>
+                            </span>
+                        </v-col>
+                        <v-img height="100%" class="mt-2"
+                               src="images/repre.png">
+                        </v-img>
+                    </v-row>
+
+                    <!--  Abstract -->
+                    <v-row justify="left" class="mt-4"  no-gutters>
+                        <v-col :cols="12" >
+                            <div class="text-h4 text-left"> Abstract</div>
+                            <div class="text-body-1 text-left">
+                                {{abstract}}
+                            </div>
+                        </v-col>
+                    </v-row>
+                    <v-row justify="left" class="mt-4"  no-gutters>
+                        <v-col :cols="12" >
+                            <div class="text-h4 text-left"> Contribution</div>
+                            <div class="text-body-1 text-left">
+                                {{contribution}}
+                            </div>
+                        </v-col>
+                    </v-row>
+
+                    <!--  Download -->
+                    <v-row justify="left" class="mt-4"  no-gutters>
+                        <v-col class="col-12 text-left">
+                            <div class="text-h4"> Download</div>
+
+                            <v-btn color="blue-grey" dark href="../../publications/paper_fur_aggregation.pdf" target="_blank"> PAPER
+                                <v-icon class="ml-2 white--text" >mdi-cloud-download</v-icon>
+                            </v-btn>
+							<v-btn color="blue-grey" dark href="../../publications/code_fur_aggregation.zip" target="_blank"> CODE
+                                <v-icon class="ml-2 white--text" >mdi-cloud-download</v-icon>
+                            </v-btn>
+
+                        </v-col>
+                    </v-row>
+
+                    <!--  Video -->
+                    <v-row class="mt-4"  no-gutters>
+                        <div class="text-h4 text-left"> Video</div>
+                        <video controls="" preload="metadata" align="center" width="100%" style="display:block;   width:100%;">
+                            <source src="../../publications/video_fur_aggregation.mp4" type="video/mp4">
+                        </video>
+                    </v-row>
+
+
+                    <!--  Bibtex -->
+                    <v-row justify="left" class="mt-4"  no-gutters>
+                        <v-sheet tile>
+                            <div class="text-h4 text-left"> Bibtex</div>
+                        </v-sheet>
+                    </v-row>
+
+                    <pre id=bibtex class="text-left"> <span style="font-family: sans-serif">
+@article{Junqiu2023Cloth,
+  title={A Realistic Surface-based Cloth Rendering Model},
+  author={Zhu, Junqiu and Jarabo, Adrian  and Aliaga, Carlos  and Ling-Qi, Yan and  Chiang, Matt Jen-Yuan},
+  journal={SIGGRAPH 2023 Conference Paper},
+  year={2023},
+  volume={42},
+  number={4},
+}
+</span>
+</pre>
+                </v-col>
+            </v-row>
+
+            <!--  footer  -->
+            <v-footer color=#743481 padless>
+                <v-row justify="center" no-gutters>
+                    <v-btn
+                            v-for="link in links"
+                            :key="link"
+                            color="white"
+                            text
+                            rounded
+                            class="my-2"
+                    >
+                        {{ link }}
+                    </v-btn>
+                    <v-btn
+                            v-for="icon in icons"
+                            :key="icon"
+                            class="mx-4 white--text"
+                            icon
+                    >
+                        <v-icon size="24px">
+                            {{ icon }}
+                        </v-icon>
+                    </v-btn>
+
+                </v-row>
+            </v-footer>
+        </v-app>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: {
+            links: [
+                'About Us',
+                'Team',
+                'Contact Us'
+            ],
+            title:'A Realistic Surface-based Cloth Rendering Model',
+            abstract:'We propose a surface-based cloth shading model that generates realistic cloth appearance with ply-level details. It generalizes previous surface-based models to a broader set of cloth including knitted and thin woven cloth. Our model takes into account the most dominant visual features of cloth, including anisotropic S-shaped reflection highlight, cross-shaped transmission highlights, delta transmission, and shadowing masking. We model these elements via a comprehensive micro-scale BSDF and a meso-scale effective BSDF formulation. Then, we propose an implementation that leverages the Monte Carlo sampler of path tracing for reducing precomputation to the bare minimum, by evaluating the effective BSDF as a Monte Carlo estimate, and encoding visibility using anisotropic spherical Gaussians. We demonstrate our model by replicating a set of woven and knitted fabrics, showing good match with respect to captured photographs.',
+            contribution:'We propose a novel method  for accurately translating cloth appearance from ply-based descriptions to surfaces, which addresses several previously unconsidered effects. Our method\'s primary contribution is the development of a model that incorporates the following features:\n include the shadowing effect between plies and yarns, which is approximated using anisotripic spherical gaussians (ASGs) for compact storage. Our shadowing term is spatially varying and can be applied to knitted cloth, unlike the microcylinder model proposed in [Sadeghi et al. 2013]; \n include the masking and parallax effects described in [Wu2019], which involves mipmapping normal maps to simulate heightfields, thereby avoiding costly ray-tracing. This step is performed before rendering, adding no additional noise or rendering overhead;\n include the transmission effect, which accounts for both surface transmission through yarns and delta transmission through gaps, producing cross-shaped highlights under backlighting. This feature is crucial for modeling "thin" cloth, which can only be attained through curve-based models. Note that no previous surface-based model includes transmission.',
+
+            authors:[
+                {name:'Junqiu Zhu', sup:12, link:null },
+                {name:'Adrian Jarabo', sup:2, link:null},
+                {name:'Carlos Aliaga', sup:2, link:null},
+                {name:'Ling-Qi Yan', sup:1, link:null},
+                {name:'Matt Jen-Yuan Chiang', sup:2, link:null},
+            ],
+            institutions:['University of California, Santa Barbara', 'Meta Reality Labs Research'],
+        },
+        methods:{
+            test(){
+                console.log("1234");
+            }
+        },
+        computed: {
+            cols () {
+                const { lg, sm } = this.$vuetify.breakpoint
+                return lg ? 6 : sm ? 9 : 8
+            },
+        },
+    })
+
+</script>
+</html>
